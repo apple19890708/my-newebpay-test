@@ -55,6 +55,8 @@ router.post('/spgateway_return', (req, res) => {
 
 router.post('/spgateway_notify', (req, res) => {
   const data = req.body;
+
+  const info = create_mpg_aes_decrypt()
   console.log('spgateway_notify', data)
   res.end();
 })
@@ -80,3 +82,12 @@ function create_mpg_sha_encrypt(aesEncrypt) {
   return sha.update(plainText).digest('hex').toUpperCase();
 }
 
+// 將 aes 解密
+function create_mpg_aes_decrypt(TradeInfo) {
+  const decrypt = crypto.createDecipheriv('aes256', HASHKEY, HASHIV);
+  decrypt.setAutoPadding(false);
+  const text = decrypt.update(TradeInfo, 'hex', 'utf8');
+  const plainText = text + decrypt.final('utf8');
+  const result = plainText.replace(/[\x00-\x20]+/g, '');
+  return JSON.parse(result);
+}
