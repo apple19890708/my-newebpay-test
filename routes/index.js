@@ -48,13 +48,13 @@ router.get('/order/:id', (req, res) => {
 })
 
 router.post('/spgateway_return', (req, res) => {
-  const data = req.data;
-  console.log('spgateway_return', data)
+  const data = req.body;
+  res.render('success', { title: 'Success' });
   res.end();
 })
 
 router.post('/spgateway_notify', (req, res) => {
-  const data = req.data;
+  const data = req.body;
   console.log('spgateway_notify', data)
   res.end();
 })
