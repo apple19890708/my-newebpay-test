@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.js"></script>
+  </head>
+  <body>
+    <!-- <form action="https://ccore.newebpay.com/MPG/mpg_gateway" method="post">
+      <input type="text" name="MerchantID" value="MS148297962">
+      <input type="hidden" name="TradeSha" value="FF3FF08B1902B161AA8633B3B779EF4DEF0C9388BE71F3A96286F3F9FC50E2CE">
+      <input type="hidden" name="TradeInfo" value="ebb1f793f28da92f3e27655ef5d773eeff491fbf3bae566c053bfa20a6f11591c53a82518883957f6f5115ea70f7967c6434828b2c63e115891f539027b2e191e399b968d2da80411f405232d6ee217f81eb72decaaca18dc03dd5df72844afe50dfe8c4f0fb48f803d79cca10f9f658af7ed5148d4682ce0efd7ee2009ed1c8779e6852a43b6cf365e26df7951731e7de85993df5723ee31202a498cdc06e04">
+      <input type="text" name="TimeStamp" value="1678176349">
+      <input type="text" name="Version" value="1.5">
+      <input type="text" name="MerchantOrderNo" value="1678176349">
+      <input type="text" name="Amt" value="80">
+      <input type="email" name="Email" value="apple19890708@gmail.com">
+      <button type="submit">送出</button>
+    </form> -->
+    <div id="app">
+      <form @submit.prevent="createOrder">
+        <div>
+          Email
+          <input type="email" v-model="order.email">
+        </div>
+        <div>
+          Amt
+          <input type="text" v-model.number="order.amt">
+        </div>
+        <div>
+          ItemDesc
+          <input type="text" v-model="order.itemDesc">
+        </div>
+        <button type="submit">Submit order</button>
+      </form>
+    </div>
+    
+    <script type="module">
+      import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.esm-browser.min.js';
+
+      const app = {
+        data() {
+          return {
+            order: {
+              email: 'apple19890708@gmail.com',
+              amt: 1000,
+              itemDesc: '測試商品',
+            },
+          }
+        },
+        methods: {
+          async createOrder() {
+            try {
+              const url = '/createOrder';
+              const res = await axios.post(url, this.order);
+              window.location.href = `/check/?order=${res.data.TimeStamp}`
+              console.log(res.data);
+            } catch (error) {
+              
+            }
+          }
+        },
+      }
+      createApp(app).mount('#app')
+    </script>
+  </body>
+</html>
