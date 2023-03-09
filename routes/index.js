@@ -56,8 +56,9 @@ router.post('/spgateway_return', (req, res) => {
 router.post('/spgateway_notify', (req, res) => {
   const data = req.body;
 
-  const info = create_mpg_aes_decrypt()
+  const info = create_mpg_aes_decrypt(data.TradeInfo)
   console.log('spgateway_notify', data)
+  console.log('orders', orders[info.Result.MerchantOrderNo])
   res.end();
 })
 
